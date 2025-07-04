@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Face Emotion Detection</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <script>
+    // Debug model loading
+    window.addEventListener('load', () => {
+        const models = [
+            '/models/face_landmark_68_tiny_model-weights_manifest.json',
+            '/models/face_landmark_68_tiny_model-shard1'
+        ];
+        
+        models.forEach(url => {
+            fetch(url)
+                .then(r => console.log(`Model ${url} status: ${r.status}`))
+                .catch(e => console.error(`Model ${url} error:`, e));
+        });
+    });
+    </script>
+</head>
+<body>
+    <div class="glass-container">
+        <header>
+            <h1>AI Emotion Detector</h1>
+            <button id="toggleCamera" class="btn pulse">🎥 Start Camera</button>
+        </header>
+
+        <main>
+            <div class="video-container">
+                <video id="videoElement" autoplay muted></video>
+                <canvas id="overlayCanvas"></canvas>
+                <div class="loading-overlay">
+                    <div class="spinner"></div>
+                    <p id="statusMessage">Initializing AI system...</p>
+                </div>
+            </div>
+
+            <div class="emotion-panel">
+                <h2>Emotion Analysis</h2>
+                <div class="emotion-bars"></div>
+                <div class="dominant-emotion">
+                    <div class="emotion-icon">👁️</div>
+                    <div class="emotion-value">0%</div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <span>👥 <span id="faceCount">0</span> faces</span>
+            <span>⚡ <span id="fps">0</span> FPS</span>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
